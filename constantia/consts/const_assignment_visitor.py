@@ -40,17 +40,43 @@ class ConstAssignmentVisitor(ast.NodeVisitor):
 
             # Assignment through class name
             if (
-                isinstance(target, ast.Attribute)
-                and target.attr in self.constants
-                and isinstance(target.value, ast.Name)
-                and target.value.id == self.cls.__name__
+                    isinstance(target, ast.Attribute)
+                    and target.attr in self.constants
+                    and isinstance(target.value, ast.Name)
+                    and target.value.id == self.cls.__name__
             ):
                 code_line = self.__code_line(node)
                 raise ValueError(
                     f'Static reassignment of class constant "{target.attr}" detected on line {node.lineno} ({code_line}).'
                 )
 
+            if (
+                    isinstance(target, ast.Attribute)
+                    and isinstance(target.value, ast.Attribute)
+                    and isinstance(target.value.value, ast.Name)
+                    and target.value.value.id == "self"
+                    and target.value.attr == "__class__"
+                    and target.attr in self.constants
+            ):
+                code_line = self.__code_line(node)
+                raise ValueError(
+                    f'Reassignment of class constant "{target.attr}" detected on line {node.lineno} ({code_line}).'
+                )
+
         self.generic_visit(node)
+
+    def _is_self_class_const(self, node):
+        """
+        Check if the node represents `self.__class__.CONST`.
+        """
+        return (
+                isinstance(node, ast.Attribute)
+                and isinstance(node.value, ast.Attribute)
+                and isinstance(node.value.value, ast.Name)
+                and node.value.value.id == "self"
+                and node.value.attr == "__class__"
+                and node.attr in self.constants
+        )
 
     def visit_Attribute(self, node):
         if isinstance(node.value, ast.Name) and node.value.id in {'self', 'cls'}:

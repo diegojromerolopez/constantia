@@ -41,6 +41,18 @@ class TestConstsAtRuntime(unittest.TestCase):
 
         self.assertEqual('Reassignment of class constant "X" detected on line 7 (cls.X = 8888).', str(context.exception))
 
+    def test_class_constants_cannot_be_reassigned_in_instance_method(self):
+        from constantia.tests.decorators.check_at_runtime.cases.class_constants_cannot_be_reassigned_in_instance_method import Example
+
+        with self.assertRaises(ValueError) as context:
+            e = Example()
+            e.change_x()
+
+        self.assertEqual(
+            'Reassignment of class constant "X" detected on line 6 (self.__class__.X = 8888).',
+            str(context.exception)
+        )
+
     def test_class_constants_cannot_be_reassigned_in_static_method(self):
         from constantia.tests.decorators.check_at_runtime.cases.class_constants_cannot_be_reassigned_in_static_method import Example
 
