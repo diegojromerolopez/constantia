@@ -23,6 +23,15 @@ class TestConstsAtImport(unittest.TestCase):
             str(context.exception)
         )
 
+    def test_class_constants_cannot_be_reassigned_in_instance_method(self):
+        with self.assertRaises(ValueError) as context:
+            from constantia.tests.decorators.check_at_import.cases.class_constants_cannot_be_reassigned_in_instance_method import Example  # noqa
+
+        self.assertEqual(
+            "Reassignment of class constant \"X\" detected on line 6 (self.__class__.X = 'new value').",
+            str(context.exception)
+        )
+
     def test_class_constants_cannot_be_reassigned_in_static_method(self):
         with self.assertRaises(ValueError) as context:
             from constantia.tests.decorators.check_at_import.cases.class_constants_cannot_be_reassigned_in_static_method import Example  # noqa
