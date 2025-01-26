@@ -7,7 +7,7 @@ from constantia.consts.const_assignment_visitor import ConstAssignmentVisitor
 from constantia.consts.typing import OnType
 
 
-def consts(var_names: OnType = None, check_at: Literal["runtime", "import"] = "import"):
+def consts(var_names: OnType = 'uppercase', check_at: Literal["runtime", "import"] = "import"):
     def decorator(obj):
         cls = __class_from_obj(obj)
 
