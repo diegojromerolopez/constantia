@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.0.5 (2025-01-26)
+### Fixes
+- Handle the no-parameter call of the const decorator.
+- Add more tests.
+
 ## 0.0.4 (2025-01-23)
 ### Fixes
 - Detect reassignment in instance methods (`self.__class__.CONST`).

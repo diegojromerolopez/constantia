@@ -7,7 +7,7 @@ long_description = open(os.path.join(root_dir_path, "README.md")).read()
 
 setup(
     name="constantia",
-    version="0.0.4",
+    version="0.0.5",
     author="Diego J. Romero López",
     author_email="diegojromerolopez@gmail.com",
     description="Enforce constants at import time",

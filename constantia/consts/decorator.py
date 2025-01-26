@@ -8,6 +8,13 @@ from constantia.consts.typing import OnType
 
 
 def consts(var_names: OnType = 'uppercase', check_at: Literal["runtime", "import"] = "import"):
+    # Handling the no-parameter call
+    if callable(var_names):
+        obj = var_names
+        var_names = 'uppercase'
+        check_at: Literal["runtime", "import"] = "import"
+        return consts(var_names=var_names, check_at=check_at)(obj)
+
     def decorator(obj):
         cls = __class_from_obj(obj)
 

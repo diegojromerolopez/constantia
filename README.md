@@ -90,6 +90,18 @@ class Example:
         Example.X = 8888  # this will raise an exception
 ```
 
+#### Sensible defaults: constants are uppercase and check the constants at import time
+
+```python
+from constantia import consts
+
+@consts
+class Example:
+    X = 9999
+    Y = 'other constant'
+    X = 888  # this will raise an exception
+```
+
 ## Dependencies
 This package has no dependencies.
 
